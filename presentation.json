@@ -1,0 +1,166 @@
+{
+  "greeting": {
+    "welcome": "Welcome to your AI-powered future, a hands-on workshop for curious students ready to explore the exciting world of artificial intelligence.",
+    "checklist": [
+      {
+        "title": "Can you see my screen?",
+        "description": "Make sure audio and video are working perfectly for the best experience"
+      },
+      {
+        "title": "Questions welcome anytime!",
+        "description": "Pop your questions in the Q&A box—no question is too small or silly"
+      },
+      {
+        "title": "Get ready for surprises",
+        "description": "We'll keep this fun, interactive, and full of mind-blowing demos"
+      }
+    ],
+    "divein": "Let's dive in!"
+  },
+  "prompts": [
+    {
+      "id": "prompt1",
+      "title": "Why AI for Students",
+      "aliases": ["How AI Transforms Student Life", "AI for students", "why learn AI", "AI benefits", "student life"],
+      "response": {
+        "intro": "AI is shaping the future. By learning it now, you are preparing yourselves for amazing opportunities.",
+        "keyBenefits": [
+          "Solve real-world problems 🌍",
+          "Create exciting projects ✨",
+          "Build a future career in technology 💼"
+        ],
+        "tagline": "You are the next generation of innovators!",
+        "description": "Artificial intelligence isn't just changing the world—it's revolutionizing how you learn, create, and explore your potential. From supporting your projects to unleashing your artistic talents, AI makes learning faster, more engaging, and incredibly fun.",
+        "features": [
+          {
+            "title": "Smart Learning",
+            "description": "AI supports your projects with intelligent assistance and creative insights"
+          },
+          {
+            "title": "Creative Arts",
+            "description": "Transform your artistic vision into stunning digital creations"
+          },
+          {
+            "title": "Better Communication",
+            "description": "Express your ideas more clearly and confidently than ever before"
+          }
+        ],
+        "activities": [
+          {
+            "icon": "🖼️",
+            "title": "AI Art Creation",
+            "description": "Design posters, illustrations, and digital artwork using AI-powered creative tools"
+          },
+          {
+            "icon": "✍️",
+            "title": "Story Generation",
+            "description": "Craft amazing stories, poems, and creative writing with AI as your co-author"
+          },
+          {
+            "icon": "👨‍💻",
+            "title": "Coding Adventures",
+            "description": "Build simple programs and learn coding concepts with AI guidance and support"
+          },
+          {
+            "icon": "📊",
+            "title": "Data Visualization",
+            "description": "Transform boring numbers into colorful, meaningful charts and infographics"
+          }
+        ]
+      }
+    },
+    {
+      "id": "prompt2",
+      "title": "Future Careers Powered by AI",
+      "aliases": ["AI careers", "jobs with AI", "future jobs", "AI job opportunities", "career options"],
+      "response": {
+        "intro": "AI will be part of almost every job. Here are careers where AI plays a big role:",
+        "careers": [
+          {
+            "title": "AI Solution Architect",
+            "description": "They build the 'brains' behind AI — teaching machines how to learn from data and make smart decisions.",
+            "example": "An AI solution Architect bridges the gap between business needs and technical teams."
+          },
+          {
+            "title": "Data Scientist",
+            "description": "They find patterns in huge amounts of data and turn them into useful insights for companies, hospitals, or governments.",
+            "example": "A data scientist helps Netflix decide what shows to recommend to each user."
+          },
+          {
+            "title": "Artist / Creative Technologist",
+            "description": "They combine art and technology to make digital art, music, or animations using AI tools.",
+            "example": "An AI artist uses tools like DALL·E or Soundraw to create music videos or futuristic artwork."
+          },
+          {
+            "title": "Robotics Engineer",
+            "description": "They design and program robots that can perform tasks like surgery, farming, or space exploration.",
+            "example": "A robotics engineer helps design robots used by NASA to explore Mars."
+          },
+          {
+            "title": "Healthcare Analyst",
+            "description": "They use AI to help doctors detect diseases early or predict patient risks.",
+            "example": "An analyst develops an AI system that can detect signs of cancer from X-ray scans."
+          },
+          {
+            "title": "Cybersecurity Analyst (AI Security)",
+            "description": "They use AI to protect computers, networks, and data from hackers.",
+            "example": "AI helps detect unusual login attempts or fake emails to keep people's data safe."
+          },
+          {
+            "title": "AI Entrepreneur / Startup Founder",
+            "description": "They use AI to create new products, apps, or services that solve real-world problems. An AI entrepreneur combines creativity, coding, and business skills to build something original.",
+            "example": "A student builds an AI app that helps farmers predict rainfall or a chatbot that tutors children in rural schools."
+          },
+          {
+            "title": "AI Product Manager",
+            "description": "They use AI to do end-to-end development and lifecycle of products that uses AI.",
+            "example": "AI helps in designing, developing and launching a product also enhances existing product."
+          },
+          {
+            "title": "Environmental AI Scientist",
+            "description": "They use AI to solve environmental challenges like pollution, deforestation, and climate change.",
+            "example": "AI helps predict floods or monitor forest health through satellite images."
+          }
+        ]
+      }
+    },
+    {
+      "id": "prompt3",
+      "title": "AI in Science Labs",
+      "aliases": ["AI science", "science experiments", "virtual labs", "AI in labs", "science learning"],
+      "response": {
+        "features": [
+          {
+            "title": "Digital Simulations",
+            "description": "Run virtual experiments safely before entering the real lab. Test different variables and see results instantly."
+          },
+          {
+            "title": "Perfect Preparation",
+            "description": "Practice procedures, learn safety protocols, and understand expected outcomes before handling actual chemicals."
+          },
+          {
+            "title": "Enhanced Understanding",
+            "description": "Visualize molecular interactions, chemical bonds, and reactions at the atomic level for deeper comprehension."
+          }
+        ]
+      }
+    },
+    {
+      "id": "prompt4",
+      "title": "AI in Maths Mastery",
+      "aliases": ["AI math", "math help", "AI mathematics", "solve math problems", "maths learning"],
+      "response": {
+        "features": [
+          {
+            "title": "Step-by-Step Solutions",
+            "description": "Watch AI break down complex equations into manageable steps, explaining the logic behind each mathematical operation clearly and patiently."
+          },
+          {
+            "title": "Visual Explanations",
+            "description": "Transform abstract mathematical concepts into interactive visual representations that make geometry, algebra, and calculus intuitive and engaging."
+          }
+        ]
+      }
+    }
+  ]
+}

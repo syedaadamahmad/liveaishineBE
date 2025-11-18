@@ -1,0 +1,317 @@
+[
+    {
+        "topic": "What Is Artificial Intelligence and Why Should Students Care?",
+        "category": "AI Foundations",
+        "level": "Beginner \u2013 All Students",
+        "type": "Foundational Concept",
+        "summary": "Introduces AI as a real-world technology shaping learning, creativity, and everyday life. Encourages students to see AI as a personal assistant that amplifies creativity and problem-solving.",
+        "keywords": [
+            "artificial intelligence",
+            "AI basics",
+            "machine learning",
+            "student learning",
+            "creativity",
+            "ChatGPT",
+            "DALL\u00b7E",
+            "digital literacy",
+            "Netflix AI",
+            "Google Maps",
+            "Siri",
+            "Alexa",
+            "AI in education",
+            "21st century skills"
+        ]
+    },
+    {
+        "topic": "How AI Is Already a Part of Your Life (Even If You Didn\u2019t Know It)",
+        "category": "AI Foundations",
+        "level": "Beginner",
+        "type": "Real-World Connection",
+        "summary": "Demonstrates how AI powers entertainment, smartphones, maps, shopping, education, and social media, showing students that they already use AI daily.",
+        "keywords": [
+            "daily life AI",
+            "AI use cases",
+            "recommendation systems",
+            "Siri",
+            "Google Assistant",
+            "AI in education",
+            "Spotify AI",
+            "social media algorithms",
+            "AI in healthcare",
+            "AI in banking",
+            "AI in gaming",
+            "AI in data engineering",
+            "AI in language learning",
+            "AI in cybersecurity",
+            "AI in Robotics",
+            "AI in Creativity",
+            "AI in startup and business",
+            "AI in Environmental studies",
+            "Waze",
+            "Netflix"
+        ]
+    },
+    {
+        "topic": "How AI Supercharges Creativity for Students",
+        "category": "AI & Creativity",
+        "level": "Beginner\u2013Intermediate",
+        "type": "Core Concept",
+        "summary": "Explains how AI enhances creativity in art, writing, music, and idea generation. Encourages students to view AI as a creative co-pilot.",
+        "keywords": [
+            "AI creativity",
+            "DALL\u00b7E",
+            "Canva AI",
+            "ChatGPT",
+            "writing assistance",
+            "music generation",
+            "creative brainstorming",
+            "innovation",
+            "visual arts",
+            "storytelling",
+            "Soundraw",
+            "Beatoven",
+            "collaboration with AI"
+        ]
+    },
+    {
+        "topic": "What Students Will Actually Do in Module 1",
+        "category": "Hands-On Learning",
+        "level": "All",
+        "type": "Activity Overview",
+        "summary": "Outlines four core activities \u2014 AI art, story generation, coding, and data visualization \u2014 helping students apply AI practically through creative projects.",
+        "keywords": [
+            "student activities",
+            "AI art generation",
+            "story writing",
+            "Replit",
+            "ChartGPT",
+            "Midjourney",
+            "coding with AI",
+            "Canva AI",
+            "data visualization",
+            "AI projects",
+            "creative learning",
+            "applied AI"
+        ]
+    },
+    {
+        "topic": "How AI Helps in Every School Subject",
+        "category": "AI in School Subjects",
+        "level": "All",
+        "type": "Subject Integration",
+        "summary": "Shows how AI assists learning across subjects \u2014 from solving math problems and explaining science to visualizing data and improving writing.",
+        "keywords": [
+            "AI in education",
+            "AI for maths",
+            "AI in science",
+            "Duolingo",
+            "Photomath",
+            "ChatGPT for learning",
+            "AI tutor",
+            "history simulation",
+            "AI in language learning",
+            "data analysis",
+            "personalized learning",
+            "AI tools for students"
+        ]
+    },
+    {
+        "topic": "The C.R.A.F.T. Prompting Framework",
+        "category": "Prompt Engineering",
+        "level": "Intermediate",
+        "type": "AI Communication Skill",
+        "summary": "Teaches students the 5-part C.R.A.F.T. method (Context, Role, Action, Format, Tone) to write clear, effective prompts for AI tools.",
+        "keywords": [
+            "prompting framework",
+            "CRAFT method",
+            "AI literacy",
+            "prompt design",
+            "effective communication",
+            "AI roles",
+            "ChatGPT prompts",
+            "educational AI",
+            "structured queries",
+            "tone control",
+            "AI output improvement"
+        ]
+    },
+    {
+        "topic": "Golden Rules for Working with AI Successfully",
+        "category": "Responsible AI Use",
+        "level": "All",
+        "type": "Best Practices",
+        "summary": "Lists ethical and practical principles for students \u2014 guiding AI clearly, fact-checking, iterating, and maintaining originality.",
+        "keywords": [
+            "AI ethics",
+            "responsible AI use",
+            "fact-checking",
+            "originality",
+            "human-AI collaboration",
+            "AI literacy",
+            "best practices",
+            "learning integrity",
+            "digital responsibility",
+            "iterative prompting",
+            "academic honesty"
+        ]
+    },
+    {
+        "topic": "Using AI for Group Projects and Schoolwork Management",
+        "category": "Productivity & Collaboration",
+        "level": "All",
+        "type": "Teamwork & Workflow",
+        "summary": "Explains how AI can improve teamwork through task management, note summarization, workflow planning, and report polishing.",
+        "keywords": [
+            "group projects",
+            "collaboration tools",
+            "AI productivity",
+            "Notion AI",
+            "Trello",
+            "task distribution",
+            "workflow organization",
+            "ChatGPT summaries",
+            "AI teamwork",
+            "presentation planning",
+            "project coordination"
+        ]
+    },
+    {
+        "topic": "How AI Helps You Visualize Complex Topics Instantly",
+        "category": "Visualization & Comprehension",
+        "level": "All",
+        "type": "Concept + Application",
+        "summary": "Explains how AI can convert abstract or data-heavy topics into visuals \u2014 diagrams, charts, maps, and animations \u2014 enhancing understanding.",
+        "keywords": [
+            "visual learning",
+            "AI diagrams",
+            "DALL\u00b7E",
+            "Canva AI",
+            "ChartGPT",
+            "Flourish Studio",
+            "BioRender",
+            "concept visualization",
+            "AI for education",
+            "AI presentations",
+            "science visualization",
+            "history timelines"
+        ]
+    },
+    {
+        "topic": "Explore Career Skills Early Using AI Simulations",
+        "category": "Career Exploration",
+        "level": "Middle to Senior Students (Grades 7\u201312)",
+        "type": "Motivation + Exposure",
+        "summary": "Introduces AI-powered career simulations, letting students explore roles like doctor, engineer, pilot, or game designer in virtual environments.",
+        "keywords": [
+            "career exploration",
+            "AI simulations",
+            "virtual labs",
+            "Touch Surgery",
+            "AI in STEM",
+            "future careers",
+            "student motivation",
+            "career readiness",
+            "AI skills",
+            "professional simulations",
+            "interactive learning"
+        ]
+    },
+    {
+        "topic": "How AI Helps You Write Brilliant Essays, Stories, and Scripts",
+        "category": "Writing & Communication",
+        "level": "All",
+        "type": "Writing Assistance",
+        "summary": "Shows how AI supports writing \u2014 generating ideas, improving structure, fixing grammar, and enhancing tone for essays, stories, and speeches.",
+        "keywords": [
+            "writing help",
+            "ChatGPT writing",
+            "essay improvement",
+            "Grammarly",
+            "Quillbot",
+            "storytelling",
+            "Jasper AI",
+            "student communication",
+            "AI editing",
+            "creative writing",
+            "speech drafting",
+            "grammar correction"
+        ]
+    },
+    {
+        "topic": "The Art of Asking Better Questions to AI",
+        "category": "Prompt Engineering",
+        "level": "All",
+        "type": "Skill Building",
+        "summary": "Focuses on how to frame questions effectively using clarity, format, and context to get high-quality AI responses.",
+        "keywords": [
+            "prompting skills",
+            "question design",
+            "communication with AI",
+            "AI query improvement",
+            "clarity in prompts",
+            "context role tone",
+            "ChatGPT guidance",
+            "student prompting",
+            "educational communication"
+        ]
+    },
+    {
+        "topic": "How AI Turns Homework into an Adventure",
+        "category": "Learning Motivation",
+        "level": "All",
+        "type": "Mindset + Application",
+        "summary": "Explains how AI gamifies homework using quizzes, interactive learning, and instant feedback to make studying engaging.",
+        "keywords": [
+            "gamified learning",
+            "homework help",
+            "AI feedback",
+            "Quizizz",
+            "Kahoot AI",
+            "Photomath",
+            "AI motivation",
+            "adaptive learning",
+            "student engagement",
+            "educational technology",
+            "fun learning"
+        ]
+    },
+    {
+        "topic": "AI as Your Personalized Study Buddy",
+        "category": "Learning Motivation",
+        "level": "All",
+        "type": "Adaptive Learning + Motivation",
+        "summary": "Describes how AI personalizes study habits, tracks progress, and provides customized feedback to improve learning outcomes.",
+        "keywords": [
+            "personalized learning",
+            "adaptive AI",
+            "study planner",
+            "ChatGPT tutor",
+            "Quizizz AI",
+            "spaced repetition",
+            "learning analytics",
+            "motivation",
+            "AI feedback",
+            "student empowerment",
+            "self-paced learning"
+        ]
+    },
+    {
+        "topic": "The Final Takeaway \u2014 What You Mastered in Module 1",
+        "category": "Module Summary",
+        "level": "All",
+        "type": "Reflection + Transition",
+        "summary": "Summarizes all Module 1 learnings \u2014 understanding AI, creativity, prompting, ethics, and practical application. Encourages continued exploration in next modules.",
+        "keywords": [
+            "module summary",
+            "AI learning outcomes",
+            "student reflection",
+            "creativity with AI",
+            "CRAFT framework",
+            "responsible AI",
+            "project-based learning",
+            "21st century skills",
+            "digital confidence",
+            "AI mastery"
+        ]
+    }
+]
