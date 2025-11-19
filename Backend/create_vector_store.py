@@ -1,6 +1,4 @@
 
-
-
 """
 Vector Store Creation Script
 Ingests KB JSON and presentation.json, generates embeddings, and populates MongoDB.
