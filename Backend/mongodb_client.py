@@ -11,6 +11,8 @@ from typing import List, Dict, Any, Optional
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, OperationFailure, ServerSelectionTimeoutError
 from dotenv import load_dotenv
+import certifi
+
 
 load_dotenv(override=True)
 
@@ -60,11 +62,13 @@ class MongoDBClient:
                 
                 self.client = MongoClient(
                     self.uri,
+                    tls=True,
+                    tlsCAFile=certifi.where(),
                     maxPoolSize=10,
                     minPoolSize=2,
-                    serverSelectionTimeoutMS=10000,  # 10 seconds
+                    serverSelectionTimeoutMS=10000,
                     connectTimeoutMS=10000,
-                    socketTimeoutMS=30000,  # 30 seconds for queries
+                    socketTimeoutMS=30000,
                     retryWrites=True,
                     retryReads=True,
                     w='majority'
