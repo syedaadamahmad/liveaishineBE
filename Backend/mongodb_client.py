@@ -1,5 +1,3 @@
-
-
 """
 MongoDB Atlas Vector Search Client
 Render-compatible with retry logic, connection pooling, and graceful error handling.
@@ -8,11 +6,11 @@ import os
 import logging
 import time
 from typing import List, Dict, Any, Optional
+
+import certifi
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, OperationFailure, ServerSelectionTimeoutError
 from dotenv import load_dotenv
-import certifi
-
 
 load_dotenv(override=True)
 
@@ -24,13 +22,6 @@ class MongoDBClient:
     """MongoDB Atlas Vector Search client with Render cloud compatibility."""
     
     def __init__(self, max_retries: int = 3, retry_delay: int = 2):
-        """
-        Initialize MongoDB client with retry logic.
-        
-        Args:
-            max_retries: Number of connection retry attempts
-            retry_delay: Seconds to wait between retries
-        """
         load_dotenv(override=True)
         
         self.uri = os.getenv("MONGO_DB_URI")
@@ -39,7 +30,6 @@ class MongoDBClient:
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         
-        # Validate required env vars
         if not self.uri:
             raise ValueError("[MONGO_ERR] MONGO_DB_URI not set in environment")
         
@@ -59,11 +49,12 @@ class MongoDBClient:
         for attempt in range(1, self.max_retries + 1):
             try:
                 logger.info(f"[MONGO] Connection attempt {attempt}/{self.max_retries}")
-                
+
+                # 🔥 KEY FIX FOR RENDER TLS HANDSHAKE
                 self.client = MongoClient(
                     self.uri,
                     tls=True,
-                    tlsCAFile=certifi.where(),
+                    tlsCAFile=certifi.where(),   # <---- REQUIRED ON RENDER
                     maxPoolSize=10,
                     minPoolSize=2,
                     serverSelectionTimeoutMS=10000,
@@ -100,6 +91,9 @@ class MongoDBClient:
         except Exception as e:
             logger.warning(f"[MONGO] Connection lost, reconnecting: {e}")
             self._connect_with_retry()
+    
+    # your other methods remain unchanged...
+
     
     def vector_search(
         self,
