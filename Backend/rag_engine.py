@@ -1,4 +1,3 @@
-
 """
 RAG Engine - Core Orchestration
 Integrates intent detection, retrieval, prompt construction, and LLM generation.
@@ -164,14 +163,22 @@ class RAGEngine:
     
     def _classify_response(self, response: str, has_context: bool, is_presentation: bool) -> str:
         """Classify response type for frontend rendering."""
-        if response.startswith("⚠") or "I don't have" in response:
+        
+        # Check for out-of-scope (starts with warning emoji OR contains specialization statement)
+        if response.startswith("⚠") or "I specialize in AI and Machine Learning topics" in response:
             return "decline"
         
-        if "**Answer:**" in response and "**Key Points:**" in response:
+        # Check for "I don't have" (knowledge gaps)
+        if "I don't have" in response or "I don't know" in response:
+            return "decline"
+        
+        # Check for structured format (HTML or markdown)
+        if ("<strong>Answer:</strong>" in response or "**Answer:**" in response) and \
+        ("<strong>Key Points:</strong>" in response or "**Key Points:**" in response):
             return "structured"
         
         return "text"
-    
+
     def _validate_and_fix_response(self, response: str, has_context: bool) -> str:
         """
         Validate response has proper structure, fix if needed.
@@ -208,4 +215,5 @@ class RAGEngine:
             logger.info("[RAG_ENGINE] ✅ Cleanup complete")
         except Exception as e:
             logger.error(f"[RAG_ENGINE] Cleanup error: {e}")
+
 
