@@ -330,3 +330,6 @@ User Question: {query}
         """Build a welcoming greeting response."""
         return "👋 Hello! I'm <strong>AI Shine</strong>, your AI/ML educational assistant. Ask me anything about Artificial Intelligence, Machine Learning, or AI-powered education!"
 
+
+
+
