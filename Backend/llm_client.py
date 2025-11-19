@@ -85,9 +85,12 @@ class GeminiClient:
                     "error": "Empty response"
                 }
             
-            logger.info(f"[GEMINI_OK] Generated {len(response.text)} chars")
+            # Clean markdown bold to HTML
+            cleaned_response = self.clean_markdown_bold(response.text)
+            
+            logger.info(f"[GEMINI_OK] Generated {len(cleaned_response)} chars")
             return {
-                "response": response.text,
+                "response": cleaned_response,
                 "success": True,
                 "error": None
             }
@@ -146,5 +149,26 @@ class GeminiClient:
                 "key_points": []
             }
 
+    def clean_markdown_bold(self, text: str) -> str:
+            """
+            Convert markdown bold (**text**) to HTML bold (<strong>text</strong>).
+            CRITICAL: Must work inside <li> tags too.
+            
+            Args:
+                text: Raw text that may contain **bold** markdown
+            
+            Returns:
+                Text with HTML bold tags
+            """
+            import re
+            
+            # Convert **text** to <strong>text</strong> (works everywhere including <li>)
+            text = re.sub(r'\*\*([^\*]+)\*\*', r'<strong>\1</strong>', text)
+            
+            # Also handle standalone * bullets that aren't bold
+            # Remove any remaining single asterisks that aren't part of markdown
+            text = text.replace('* ', '• ')
+            
+            return text
 
 
