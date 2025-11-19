@@ -1,7 +1,8 @@
+
+
 """
-Intent Detector - Hybrid Regex + Semantic Fallback
-Handles greetings and continuation via deterministic patterns.
-Falls back to Gemini for ambiguous cases.
+Intent Detector - Hybrid Regex + Semantic Fallback + Presentation Detection
+Handles greetings, continuation, and deterministic presentation prompts.
 """
 import re
 import logging
@@ -18,28 +19,45 @@ class IntentDetector:
     
     # Continuation patterns
     CONTINUATION_PATTERNS = [
-    r'\btell\s+me\s+more\b',
-    r'\belaborate\b',
-    r'\bgo\s+deeper\b',
-    r'\bexpand\b',
-    r'\bmore\s+detail',
-    r'\bcontinue\b',
-    r'\bkeep\s+going\b',
-    r'\bwhat\s+else\b',
-    r'\bexplain\s+further\b',
-    r'\bgo\s+on\b',
-    r'^\s*and\s*\??\s*$',  # "and?"
-    r'^\s*more\s*\??\s*$',  # "more?"
-    r'^\s*continue\s*\??\s*$',  # "continue?"
-    r'\btell\s+me\s+about',
-    r'\bgive\s+me\s+more',
-    r'\bcan\s+you\s+elaborate'
+        r'\btell\s+me\s+more\b',
+        r'\belaborate\b',
+        r'\bgo\s+deeper\b',
+        r'\bexpand\b',
+        r'\bmore\s+detail',
+        r'\bcontinue\b',
+        r'\bkeep\s+going\b',
+        r'\bwhat\s+else\b',
+        r'\bexplain\s+further\b',
+        r'\bgo\s+on\b',
+        r'^\s*and\s*\??\s*$',
+        r'^\s*more\s*\??\s*$',
+        r'^\s*continue\s*\??\s*$',
+        r'\btell\s+me\s+about',
+        r'\bgive\s+me\s+more',
+        r'\bcan\s+you\s+elaborate'
     ]
     
-    # Simple greeting detection via regex (keeps it fast)
+    # Greeting detection
     GREETING_PATTERNS = [
         r'^\s*(hi|hello|hey|greetings|good\s+(morning|afternoon|evening)|sup|yo)\s*[!.,]?\s*$'
     ]
+    
+    # ✅ NEW: Presentation prompt patterns (deterministic exact match)
+    PRESENTATION_PROMPTS = {
+        "ai in maths mastery": "AI in Maths Mastery",
+        "maths mastery": "AI in Maths Mastery",
+        "math mastery": "AI in Maths Mastery",
+        "future careers powered by ai": "Future Careers Powered by AI",
+        "future careers": "Future Careers Powered by AI",
+        "ai careers": "Future Careers Powered by AI",
+        "careers in ai": "Future Careers Powered by AI",
+        "why ai for students": "Why AI for Students",
+        "why ai": "Why AI for Students",
+        "ai for students": "Why AI for Students",
+        "ai in science labs": "AI in Science Labs",
+        "science labs": "AI in Science Labs",
+        "ai science": "AI in Science Labs"
+    }
     
     def __init__(self, use_semantic_fallback: bool = False):
         """
@@ -71,7 +89,7 @@ class IntentDetector:
             chat_history: Previous messages (for context)
         
         Returns:
-            Dict with 'intent_type', 'is_continuation', 'is_greeting', 'confidence'
+            Dict with 'intent_type', 'is_continuation', 'is_greeting', 'is_presentation', 'presentation_topic', 'confidence'
         """
         if not message or not message.strip():
             logger.warning("[INTENT] Empty message")
@@ -79,10 +97,13 @@ class IntentDetector:
                 "intent_type": "query",
                 "is_continuation": False,
                 "is_greeting": False,
+                "is_presentation": False,
+                "presentation_topic": None,
                 "confidence": 0.0
             }
         
         message = message.strip()
+        message_lower = message.lower()
         
         # 1. Check for greeting (fast regex)
         is_greeting = bool(self.greeting_regex.match(message))
@@ -92,10 +113,25 @@ class IntentDetector:
                 "intent_type": "greeting",
                 "is_continuation": False,
                 "is_greeting": True,
+                "is_presentation": False,
+                "presentation_topic": None,
                 "confidence": 1.0
             }
         
-        # 2. Check for continuation cues (fast regex)
+        # 2. ✅ NEW: Check for presentation prompt (deterministic)
+        for key, topic in self.PRESENTATION_PROMPTS.items():
+            if key in message_lower:
+                logger.info(f"[INTENT] Presentation prompt detected: {topic}")
+                return {
+                    "intent_type": "presentation",
+                    "is_continuation": False,
+                    "is_greeting": False,
+                    "is_presentation": True,
+                    "presentation_topic": topic,
+                    "confidence": 1.0
+                }
+        
+        # 3. Check for continuation cues (fast regex)
         is_continuation = bool(self.continuation_regex.search(message))
         if is_continuation:
             logger.info("[INTENT] Continuation detected (regex)")
@@ -103,21 +139,25 @@ class IntentDetector:
                 "intent_type": "continuation",
                 "is_continuation": True,
                 "is_greeting": False,
+                "is_presentation": False,
+                "presentation_topic": None,
                 "confidence": 1.0
             }
         
-        # 3. Semantic fallback for ambiguous short messages (optional)
+        # 4. Semantic fallback for ambiguous short messages (optional)
         if self.use_semantic_fallback and len(message.split()) <= 3:
             semantic_intent = self._semantic_detect(message, chat_history)
             if semantic_intent:
                 return semantic_intent
         
-        # 4. Default: standard query
+        # 5. Default: standard query
         logger.info("[INTENT] Standard query")
         return {
             "intent_type": "query",
             "is_continuation": False,
             "is_greeting": False,
+            "is_presentation": False,
+            "presentation_topic": None,
             "confidence": 1.0
         }
     
@@ -161,12 +201,17 @@ Respond with ONLY the intent name (greeting, continuation, or query)."""
                     "intent_type": intent_type,
                     "is_continuation": intent_type == "continuation",
                     "is_greeting": intent_type == "greeting",
+                    "is_presentation": False,
+                    "presentation_topic": None,
                     "confidence": 0.8  # Lower confidence for semantic
                 }
         except Exception as e:
             logger.warning(f"[INTENT] Semantic fallback failed: {e}")
         
         return None
+
+
+
 
 
 
