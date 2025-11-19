@@ -1,6 +1,3 @@
-
-
-# post-presentation.json main.py
 """
 FastAPI Backend for AI Shine Tutor RAG Chatbot
 Unified RAG pipeline - presentation.json now handled within RAG engine.
