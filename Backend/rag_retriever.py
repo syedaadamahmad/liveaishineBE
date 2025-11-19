@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 """
 RAG Retriever
 Performs semantic search with presentation-aware prioritization and keyword filtering.
@@ -313,8 +304,3 @@ class RAGRetriever:
             "score_threshold_met": False,
             "is_presentation": False
         }
-
-
-
-
-
