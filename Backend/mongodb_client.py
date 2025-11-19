@@ -54,15 +54,16 @@ class MongoDBClient:
                 self.client = MongoClient(
                     self.uri,
                     tls=True,
-                    tlsCAFile=certifi.where(),   # <---- REQUIRED ON RENDER
-                    maxPoolSize=10,
-                    minPoolSize=2,
-                    serverSelectionTimeoutMS=10000,
-                    connectTimeoutMS=10000,
-                    socketTimeoutMS=30000,
+                    tlsCAFile=certifi.where(),
+                    tlsAllowInvalidCertificates=True,
+                    tlsAllowInvalidHostnames=True,
                     retryWrites=True,
                     retryReads=True,
-                    w='majority'
+                    serverSelectionTimeoutMS=20000,
+                    connectTimeoutMS=20000,
+                    socketTimeoutMS=30000,
+                    maxPoolSize=10,
+                    minPoolSize=2,
                 )
                 
                 # Test connection
