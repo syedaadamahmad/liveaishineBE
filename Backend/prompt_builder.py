@@ -1,9 +1,7 @@
-
-
 """
 Prompt Builder
 Dynamically constructs system prompts with STRICT domain restriction and natural tone.
-COMPLETE VERSION - Hybrid approach (strict + natural).
+COMPLETE VERSION - Gemini-safe, no finish_reason=2 errors.
 """
 import logging
 from typing import Dict, Any, List
@@ -33,8 +31,10 @@ You ONLY teach topics in:
 - AI-powered Education
 - Programming related to AI/ML (Python, TensorFlow, PyTorch, etc.)
 
-For ANY question outside these domains, respond:
-"I specialize in AI and Machine Learning topics. I'd be happy to help with questions about [suggest 2-3 related AI/ML topics]."
+For ANY question outside these domains, you MUST respond with EXACTLY this format (no HTML tags, plain text only):
+"⚠️ I specialize in AI and Machine Learning topics. I'd be happy to help with questions about [suggest 2-3 related AI/ML topics]."
+
+NOTE: Start your response with the ⚠️ emoji so the system can detect out-of-scope queries.
 
 ⚠️ CRITICAL RULE - NO HALLUCINATION:
 You have access to educational content about AI/ML topics. When answering:
@@ -70,31 +70,38 @@ You have access to educational content about AI/ML topics. When answering:
 <li><strong>First concept:</strong> Clear, specific explanation</li>
 <li><strong>Second concept:</strong> Practical application or detail</li>
 <li><strong>Third concept:</strong> Real-world relevance</li>
-<li><strong>Fourth concept:</strong> Additional important point (3-9 total)</li>
+<li><strong>Fourth concept:</strong> Additional important point </li>
+<li><strong>Fifth concept:</strong> Additional important point </li>
+<li><strong>Sixth concept:</strong> Additional important point </li>
+<li><strong>Seventh concept:</strong> Additional important point </li>
+<li><strong>Eighth concept:</strong> Additional important point </li>
+<li><strong>Ninth concept:</strong> Additional important point (9-10 total)</li>
+
 </ul>
 
 🎨 FORMATTING RULES - MANDATORY:
 1. ALWAYS use HTML: <p> for paragraphs, <strong> for bold, <ul><li> for lists
 2. Use <strong> ONLY for critical technical terms (2-4 words maximum)
 3. Each paragraph MUST be in <p></p> tags
-4. Key Points MUST use <ul><li> structure
+4. Key Points MUST use <ul><li> structure and 9 points by default
 5. Bold sparingly—only essential technical terms
 6. Paragraphs should be 3-5 sentences each
 7. NEVER use markdown (**, *, `) - ONLY HTML
 8. NO plain text outside HTML tags
+9. Concepts in Key Points should be <strong>
 
 📏 RESPONSE LENGTH:
 
 DEFAULT MODE (Standard Answer):
 - 2-3 paragraphs in Answer section
-- 5 key points with specifics
+- 9 key points with specifics
 - Total: ~150-250 words
 - Focus on clarity and directness
 
 DETAILED MODE (When User Wants More):
 Triggered by: "more detail", "elaborate", "tell me more", "explain further", "go deeper", "continue"
 - 4-6 paragraphs in Answer section
-- 9 detailed key points
+- 9-12 detailed key points
 - Include practical examples and applications
 - Add use cases or tips when relevant
 - Total: ~300-450 words
@@ -153,6 +160,7 @@ You're an AI/ML expert teaching a student. The knowledge you share comes natural
             system_prompt += "\n- If asked for advanced details beyond scope, naturally acknowledge:"
             system_prompt += "\n  'That gets into more advanced territory. Let me explain the core concept first...'"
             system_prompt += "\n- NEVER say 'presentation' or 'introductory content' directly to the user\n"
+            system_prompt += "\n- The number of Key Points should ideally be from 9-10\n"
         
         # Detailed mode for continuations
         if intent.get('is_continuation', False):
@@ -213,8 +221,8 @@ User Question: {query}
         context_section = "[Educational content for reference - internalize as your expertise]:\n\n"
         
         # Truncate each chunk to save tokens while preserving meaning
-        for idx, chunk in enumerate(context_chunks[:9], 1):  # Max 3 chunks
-            truncated_chunk = chunk[:700] + "..." if len(chunk) > 700 else chunk
+        for idx, chunk in enumerate(context_chunks[:3], 1):  # Max 3 chunks
+            truncated_chunk = chunk[:800] + "..." if len(chunk) > 800 else chunk
             context_section += f"{truncated_chunk}\n\n"
         
         context_section += "---\n\n"
@@ -223,79 +231,101 @@ User Question: {query}
         user_prompt = context_section
         user_prompt += f"Student Question: {query}\n\n"
         
-        # ✅ NEW: Special handling for presentation content
-        if is_presentation:
-            user_prompt += """[CRITICAL INSTRUCTION - PRESENTATION CONTENT]:
+        # ✅ GEMINI-SAFE: Ultra-minimal presentation instruction
+        # ✅ HYBRID: Gemini-safe but deterministic 9-item output
+#         if is_presentation:
+#             user_prompt += """Present the workshop content above using this exact structure:
 
-The content above is workshop presentation material. You MUST present it completely:
+# Write: <strong>Answer:</strong>
+# Then: 2-3 intro paragraphs in <p> tags
 
-STEP 1: Write this exact line: <strong>Answer:</strong>
+# Write: <strong>Key Points:</strong>
+# Then: List EVERY career/feature from above in <ul><li> format
 
-STEP 2: Write 2-3 paragraphs in <p> tags explaining the introduction/description from the content
+# Format each item as:
+# <li><strong>Career Name:</strong> description. Example: specific example.</li>
 
-STEP 3: Write this exact line: <strong>Key Points:</strong>
+# Critical rules:
+# 1. List all 9 careers in content as shown in Careers List (MUST list all 9)
+# 2. Never skip items
+# 3. Never add your own careers
+# 4. Use only information from content above
+# 5. Bold only the career name in each <li>
 
-STEP 4: List EVERY SINGLE item (all 9 careers/features/topics) from the content above using this format:
-<ul>
-<li><strong>Item Name:</strong> full description with example if provided</li>
-</ul>
-
-CRITICAL RULES:
-- Include ALL 9 careers (or all features/topics) - DO NOT SKIP ANY
-- Present them in the same order as in the content
-- Include descriptions AND examples for each
-- If there are 9 careers in the content, there MUST be 9 items in Key Points
-
-EXAMPLE FORMAT:
-<strong>Answer:</strong>
-
-<p>Introduction explaining the topic naturally.</p>
-
-<strong>Key Points:</strong>
-<ul>
-<li><strong>AI Solution Architect:</strong> They build the 'brains' behind AI. Example: bridges gap between business and tech teams.</li>
-<li><strong>Data Scientist:</strong> Find patterns in data. Example: helps Netflix recommend shows.</li>
-<li><strong>Artist/Creative Technologist:</strong> Combine art and tech. Example: uses DALL·E for artwork.</li>
-<li><strong>Robotics Engineer:</strong> Design robots. Example: NASA Mars exploration robots.</li>
-<li><strong>Healthcare Analyst:</strong> Use AI to detect diseases. Example: detect cancer from X-rays.</li>
-<li><strong>Cybersecurity Analyst:</strong> Use AI for protection. Example: detect fake emails.</li>
-<li><strong>AI Entrepreneur:</strong> Create AI products. Example: chatbot for rural schools.</li>
-<li><strong>AI Product Manager:</strong> End-to-end product development. Example: design and launch AI products.</li>
-<li><strong>Environmental AI Scientist:</strong> Solve environmental challenges. Example: predict floods via satellite.</li>
-</ul>
-
-Count the items in the content above and include ALL of them. Speak naturally. Never skip items."""
-            return user_prompt
+# Careers List (repeat for ALL items):
+# <li><strong>AI Solution Architect:</strong> They build the 'brains' behind AI. Example: bridges gap between teams.</li>
+# <li><strong>Data Scientist:</strong> Find patterns in data. Example: Netflix recommendations.</li>
+# <li><strong>Robotics Engineer:</strong> Design robots. Example: NASA Mars exploration robots.</li>
+# <li><strong>Healthcare Analyst:</strong> Use AI to detect diseases. Example: detect cancer from X-rays.</li>
+# <li><strong>Cybersecurity Analyst:</strong> Use AI for protection. Example: detect fake emails.</li>
+# <li><strong>AI Entrepreneur:</strong> Create AI products. Example: chatbot for rural schools.</li>
+# <li><strong>AI Product Manager:</strong> End-to-end product development. Example: design and launch AI products.</li>
+# <li><strong>Environmental AI Scientist:</strong> Solve environmental challenges. Example: predict floods via satellite.</li>
+# </ul>
+# [continue for remaining careers if available]"""
+#             return user_prompt
         
+#         # Instructions based on mode (continuation vs standard)
+#         if intent.get('is_continuation', False):
+#             user_prompt += """Provide detailed explanation:
+# - Write 4-6 paragraphs in <p> tags
+# - Include 5-7 key points in <ul><li> with <strong> on terms
+# - Add examples and use cases
+# - HTML formatting only
+# - Never mention sources"""
+#         else:
+#             user_prompt += """Provide clear answer:
+# - Write 2-3 paragraphs in <p> tags
+# - Include 3-5 key points in <ul><li> with <strong> on terms
+# - HTML formatting only
+# - Never mention sources"""
+        
+#         return user_prompt
+
+    
+    # In prompt_builder.py, line ~270, replace the entire presentation block with:
+
+        if is_presentation:
+            user_prompt += """Present the content above naturally.
+
+        Format:
+        <strong>Answer:</strong>
+        <p>Write 2-3 paragraphs introducing the topic</p>
+
+        <strong>Key Points:</strong>
+        <ul>
+        <li><strong>Item Name:</strong> Full description. Example: example text.</li>
+        <li><strong>Item Name:</strong> Full description. Example: example text.</li>
+        ... continue for EVERY item in the content above
+        </ul>
+
+        Rules:
+        1. Include EVERY career/feature/activity from the content above
+        2. Do not skip any items - list them ALL
+        3. Do not add items not in the content
+        4. Use the exact titles and descriptions from above
+        5. If content has 9 items, your output must have 9 <li> tags
+        6. Count carefully before finishing
+
+        DO NOT output anything until you've included every single item from the content."""
+            return user_prompt
         # Instructions based on mode (continuation vs standard)
         if intent.get('is_continuation', False):
-            user_prompt += """[Instruction]: Provide a detailed, comprehensive explanation using the educational content above.
-- Write 4-6 paragraphs wrapped in <p> tags
-- Use <strong> for key technical terms only (2-4 words max per instance)
-- Include 9 detailed Key Points in <ul><li> format with <strong> on key terms
-- Add concrete examples, practical applications, and use cases
-- Use proper HTML formatting throughout
-- Speak naturally—never mention sources, context, or knowledge bases
-- Vary your language—don't repeat phrases robotically
-
-If the content above lacks depth for a very detailed answer, explain what you do know clearly and thoroughly, then note: "For more advanced details on [specific aspect], I'd need additional context."
-
-Remember: Teach as if this is your own expertise. Be conversational, educational, and engaging."""
+            user_prompt += """Provide detailed explanation:
+- Write 4-6 paragraphs in <p> tags
+- Include 5-7 key points in <ul><li> with <strong> on terms
+- Add examples and use cases
+- HTML formatting only
+- Never mention sources"""
         else:
-            user_prompt += """[Instruction]: Provide a clear, informative answer using the educational content above.
-- Write 2-3 paragraphs wrapped in <p> tags
-- Use <strong> for important technical keywords only (2-4 words max per paragraph)
-- Include 9-10 Key Points in <ul><li> format with <strong> on key terms
-- Use proper HTML formatting throughout
-- Speak naturally—never mention sources, context, or knowledge bases
-- Vary your language naturally
-
-If the content above doesn't fully answer the question, explain what you do know, then suggest related topics you can help with.
-
-Remember: Respond as if you naturally know this information. Be direct, helpful, and conversational."""
+            user_prompt += """Provide clear answer:
+- Write 2-3 paragraphs in <p> tags
+- Include 3-5 key points in <ul><li> with <strong> on terms AND for career related query include 9 key points
+- HTML formatting only
+- Never mention sources"""
         
         return user_prompt
-    
+
     def build_greeting_response(self) -> str:
         """Build a welcoming greeting response."""
         return "👋 Hello! I'm <strong>AI Shine</strong>, your AI/ML educational assistant. Ask me anything about Artificial Intelligence, Machine Learning, or AI-powered education!"
