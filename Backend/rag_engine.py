@@ -1,3 +1,4 @@
+# GROK RAG_ENGINE
 """
 RAG Engine - Core Orchestration
 Integrates intent detection, retrieval, prompt construction, and LLM generation.
@@ -7,7 +8,6 @@ import logging
 from typing import List, Dict, Any
 import os
 from Backend.models import Message
-from Backend.intent_detector import IntentDetector
 from Backend.rag_retriever import RAGRetriever
 from Backend.prompt_builder import PromptBuilder
 from Backend.llm_client import GeminiClient
@@ -26,8 +26,6 @@ class RAGEngine:
     def __init__(self):
         """Initialize all RAG components."""
         try:
-            use_fallback = os.getenv("USE_SEMANTIC_FALLBACK", "false").lower() == "true"
-            self.intent_detector = IntentDetector(use_semantic_fallback=use_fallback)
             self.retriever = RAGRetriever()
             self.prompt_builder = PromptBuilder()
             self.llm_client = GeminiClient()
@@ -57,9 +55,9 @@ class RAGEngine:
             Dict with 'answer' (str) and 'type' (str)
         """
         try:
-            # Step 1: Intent Detection
+            # Step 1: Intent Detection (now integrated in PromptBuilder)
             logger.info(f"[RAG_ENGINE] Step 1: Intent Detection")
-            intent = self.intent_detector.detect(query, chat_history)
+            intent = self.prompt_builder.detect_intent(query, chat_history)
             logger.info(f"[RAG_ENGINE] Intent: {intent['intent_type']}, Continuation: {intent['is_continuation']}")
             
             # Step 2: Handle Greeting
@@ -69,6 +67,15 @@ class RAGEngine:
                 return {
                     "answer": self.prompt_builder.build_greeting_response(),
                     "type": "greeting"
+                }
+            
+            # Step 2.5: Handle Farewell (new addition based on integrated intent)
+            if intent.get('is_farewell', False):
+                logger.info("[RAG_ENGINE] Farewell detected")
+                self.last_presentation_keywords = None  # Reset context
+                return {
+                    "answer": self.prompt_builder.build_farewell_response(),
+                    "type": "text"
                 }
             
             # Step 3: Memory Management
@@ -215,5 +222,3 @@ class RAGEngine:
             logger.info("[RAG_ENGINE] ✅ Cleanup complete")
         except Exception as e:
             logger.error(f"[RAG_ENGINE] Cleanup error: {e}")
-
-
