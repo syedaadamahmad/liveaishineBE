@@ -1,4 +1,4 @@
-# GROK RAG_ENGINE
+
 """
 RAG Engine - Core Orchestration
 Integrates intent detection, retrieval, prompt construction, and LLM generation.
@@ -222,3 +222,4 @@ class RAGEngine:
             logger.info("[RAG_ENGINE] ✅ Cleanup complete")
         except Exception as e:
             logger.error(f"[RAG_ENGINE] Cleanup error: {e}")
+
